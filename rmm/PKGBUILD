@@ -31,7 +31,7 @@ build() {
 
   git submodule update --init --remote --recursive
 
-  ./build.sh -v -n rmm
+#  ./build.sh -v -n rmm
 }
 
 package() {
@@ -46,7 +46,7 @@ package() {
 
   cd "${srcdir}"/rmm/python
   export LD_LIBRARY_PATH=/opt/cuda/lib64:${srcdir}/rmm/build:$LD_LIBRARY_PATH
-  python setup.py install --single-version-externally-managed --prefix=/usr --root="${pkgdir}"  --optimize=1  # --skip-build
+  CC=/usr/bin/gcc-10 CXX=/usr/bin/g++-10 python setup.py install --single-version-externally-managed --prefix=/usr --root="${pkgdir}"  --optimize=1  # --skip-build
 
 #  mkdir -p ${pkgdir}/usr/include
 
