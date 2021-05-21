@@ -1,0 +1,65 @@
+# Maintainer: Massimiliano Torromeo <massimiliano.torromeo@gmail.com>
+# Contributor: Aleksey Filippov <sarum9in@gmail.com>
+# Contributor: Victor Aurélio Santos <victoraur.santos@gmail.com>
+
+pkgbase='grpc'
+_pkgname=('grpc')
+pkgname=('grpc-128')
+provides=('grpc')
+pkgver=1.28.1
+_gtestver=c9ccac7cb7345901884aabf5d1a786cfa6e2f397
+_abseilcppver=20200225.1
+pkgrel=1
+pkgdesc="High performance, open source, general RPC framework that puts mobile and HTTP/2 first."
+arch=('x86_64')
+url='https://grpc.io'
+license=('BSD')
+makedepends=('re2c' 'protobuf' 'c-ares' 'openssl' 'chrpath' 'gflags' 'cython' 'cmake')
+source=("https://github.com/$_pkgname/$_pkgname/archive/v$pkgver/$_pkgname-$pkgver.tar.gz"
+        "https://github.com/google/googletest/archive/$_gtestver/googletest-$_gtestver.tar.gz"
+        "https://github.com/abseil/abseil-cpp/archive/$_abseilcppver/abseil-cpp-$_abseilcppver.tar.gz"
+        "cmake-cli.patch")
+sha256sums=('4cbce7f708917b6e58b631c24c59fe720acc8fef5f959df9a58cdf9558d0a79b'
+            '443d383db648ebb8e391382c0ab63263b7091d03197f304390baac10f178a468'
+            '0db0d26f43ba6806a8a3338da3e646bb581f0ca5359b3a201d8fb8e4752fd5f8'
+            'dfd1b8cd2a5860557fba06dbdb926b3b5122feca629af7972104204da1b50caf')
+
+prepare() {
+  cd "$srcdir/$_pkgname-$pkgver"
+  patch -p1 -i "$srcdir/cmake-cli.patch"
+
+  ln -sf "$srcdir/googletest-$_gtestver/"{googlemock,googletest} \
+    third_party/googletest
+
+  rm -rf third_party/abseil-cpp
+  ln -s "$srcdir/abseil-cpp-$_abseilcppver/" third_party/abseil-cpp
+
+  mkdir build
+  cd build
+  cmake \
+    -DgRPC_INSTALL=ON \
+    -DBUILD_SHARED_LIBS=ON \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DgRPC_CARES_PROVIDER=package \
+    -DgRPC_PROTOBUF_PROVIDER=package \
+    -DgRPC_SSL_PROVIDER=package \
+    -DgRPC_ZLIB_PROVIDER=package \
+    -DgRPC_GFLAGS_PROVIDER=package \
+    ..
+}
+
+build() {
+  cd "$srcdir/$_pkgname-$pkgver/build"
+  make
+  export LDFLAGS="$LDFLAGS -L$PWD"
+
+}
+
+package() {
+  depends=('c-ares' 'protobuf' 'openssl')
+
+  cd "$srcdir/$pkgbase-$pkgver/build"
+  make DESTDIR="$pkgdir" install
+  install -Dm644 ../LICENSE "$pkgdir"/usr/share/licenses/$pkgname/LICENSE
+}
+

@@ -1,0 +1,107 @@
+From 06c795c948b594c16d3a48289519ce036a285aad Mon Sep 17 00:00:00 2001
+From: "Uwe L. Korn" <uwe.korn@quantco.com>
+Date: Tue, 23 Feb 2021 10:44:39 +0100
+Subject: [PATCH] ARROW-11724: [C++] Resolve namespace collisions with protobuf
+ 3.15
+
+Renames our alias to `afpb` to not clash with `protobuf`'s definition.
+
+Original error:
+
+```
+../src/arrow/flight/server.cc:63:11: error: redefinition of 'pb' as an alias for a different namespace
+namespace pb = arrow::flight::protocol;
+          ^
+/Users/uwe/mambaforge/conda-bld/arrow-cpp-ext_1613940663852/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehol/include/google/protobuf/port.h:44:11: note: previously defined as an alias for 'protobuf_future_namespace_placeholder'
+namespace pb = ::protobuf_future_namespace_placeholder;
+          ^
+1 error generated.
+```
+
+Closes #9542 from xhochy/ARROW-11724
+
+Authored-by: Uwe L. Korn <uwe.korn@quantco.com>
+Signed-off-by: Antoine Pitrou <antoine@python.org>
+---
+ cpp/src/arrow/flight/client.cc                 | 4 ++--
+ cpp/src/arrow/flight/flight_test.cc            | 4 ++--
+ cpp/src/arrow/flight/serialization_internal.cc | 4 ++--
+ cpp/src/arrow/flight/server.cc                 | 4 ++--
+ 4 files changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/cpp/src/arrow/flight/client.cc b/cpp/src/arrow/flight/client.cc
+index f42fbdaa9cf1..724f999fabed 100644
+--- a/cpp/src/arrow/flight/client.cc
++++ b/cpp/src/arrow/flight/client.cc
+@@ -58,12 +58,12 @@
+ #include "arrow/flight/serialization_internal.h"
+ #include "arrow/flight/types.h"
+ 
+-namespace pb = arrow::flight::protocol;
+-
+ namespace arrow {
+ 
+ namespace flight {
+ 
++namespace pb = arrow::flight::protocol;
++
+ const char* kWriteSizeDetailTypeId = "flight::FlightWriteSizeStatusDetail";
+ 
+ FlightCallOptions::FlightCallOptions()
+diff --git a/cpp/src/arrow/flight/flight_test.cc b/cpp/src/arrow/flight/flight_test.cc
+index 663fead62ce7..2cea4c490bb4 100644
+--- a/cpp/src/arrow/flight/flight_test.cc
++++ b/cpp/src/arrow/flight/flight_test.cc
+@@ -51,11 +51,11 @@
+ #include "arrow/flight/middleware_internal.h"
+ #include "arrow/flight/test_util.h"
+ 
+-namespace pb = arrow::flight::protocol;
+-
+ namespace arrow {
+ namespace flight {
+ 
++namespace pb = arrow::flight::protocol;
++
+ const char kValidUsername[] = "flight_username";
+ const char kValidPassword[] = "flight_password";
+ const char kInvalidUsername[] = "invalid_flight_username";
+diff --git a/cpp/src/arrow/flight/serialization_internal.cc b/cpp/src/arrow/flight/serialization_internal.cc
+index cf5f4140c370..8c6b737c7e5d 100644
+--- a/cpp/src/arrow/flight/serialization_internal.cc
++++ b/cpp/src/arrow/flight/serialization_internal.cc
+@@ -53,14 +53,14 @@
+ #include "arrow/util/bit_util.h"
+ #include "arrow/util/logging.h"
+ 
+-namespace pb = arrow::flight::protocol;
+-
+ static constexpr int64_t kInt32Max = std::numeric_limits<int32_t>::max();
+ 
+ namespace arrow {
+ namespace flight {
+ namespace internal {
+ 
++namespace pb = arrow::flight::protocol;
++
+ using arrow::ipc::IpcPayload;
+ 
+ using google::protobuf::internal::WireFormatLite;
+diff --git a/cpp/src/arrow/flight/server.cc b/cpp/src/arrow/flight/server.cc
+index 4e35950c8717..d1b4e0fa8163 100644
+--- a/cpp/src/arrow/flight/server.cc
++++ b/cpp/src/arrow/flight/server.cc
+@@ -60,11 +60,11 @@ using ServerContext = grpc::ServerContext;
+ template <typename T>
+ using ServerWriter = grpc::ServerWriter<T>;
+ 
+-namespace pb = arrow::flight::protocol;
+-
+ namespace arrow {
+ namespace flight {
+ 
++namespace pb = arrow::flight::protocol;
++
+ // Macro that runs interceptors before returning the given status
+ #define RETURN_WITH_MIDDLEWARE(CONTEXT, STATUS) \
+   do {                                          \
