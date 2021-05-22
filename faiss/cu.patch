@@ -1,0 +1,19 @@
+*** faiss/faiss/gpu/utils/DeviceDefs.cuh-dist	2021-05-06 20:49:28.226549560 +0900
+--- faiss/faiss/gpu/utils/DeviceDefs.cuh	2021-05-06 20:49:34.959997040 +0900
+***************
+*** 18,24 ****
+  #endif
+  
+  #ifdef __CUDA_ARCH__
+! #if __CUDA_ARCH__ <= 800
+  constexpr int kWarpSize = 32;
+  #else
+  #error Unknown __CUDA_ARCH__; please define parameters for compute capability
+--- 18,24 ----
+  #endif
+  
+  #ifdef __CUDA_ARCH__
+! #if __CUDA_ARCH__ <= 860
+  constexpr int kWarpSize = 32;
+  #else
+  #error Unknown __CUDA_ARCH__; please define parameters for compute capability
