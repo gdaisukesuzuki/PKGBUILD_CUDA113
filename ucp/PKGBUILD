@@ -1,0 +1,28 @@
+# Maintainer: Sven-Hendrik Haase <svenstaro@gmail.com>
+# Maintainer: Konstantin Gizdov (kgizdov) <arch@kge.pw>
+# Contributor: Adria Arrufat (archdria) <adria.arrufat+AUR@protonmail.ch>
+# Contributor: Thibault Lorrain (fredszaq) <fredszaq@gmail.com>
+
+pkgbase=ucp
+pkgname=python-ucp
+pkgver=1.0.0
+pkgrel=1
+pkgdesc="Library for computation using data flow graphs for scalable machine learning"
+url="https://www.tensorflow.org/"
+license=('APACHE')
+arch=('x86_64')
+depends=('python-pip')
+source=("https://files.pythonhosted.org/packages/69/f8/5db301e157f8261158ab450c5a81df33df101f45477eca92c8c1f306d679/ucp-1.0.0-py2.py3-none-any.whl")
+sha512sums=('SKIP')
+build()
+{
+  cd ${srcdir}
+}
+
+package()
+{
+  pip install ucp-1.0.0-py2.py3-none-any.whl --no-deps --prefix=/usr --root=${pkgdir}
+
+}
+
+# vim:set ts=2 sw=2 et:
