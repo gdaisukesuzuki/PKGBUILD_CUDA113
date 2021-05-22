@@ -1,0 +1,75 @@
+*** setup.py-dist	2021-05-17 21:10:00.753655204 +0900
+--- cuml/python/setup.py	2021-05-17 22:45:20.729350656 +0900
+***************
+*** 44,50 ****
+  ##############################################################################
+  # - Print of build options used by setup.py  --------------------------------
+  
+! cuda_home = get_environment_option("CUDA_HOME")
+  libcuml_path = get_environment_option('CUML_BUILD_PATH')
+  raft_path = get_environment_option('RAFT_PATH')
+  
+--- 44,51 ----
+  ##############################################################################
+  # - Print of build options used by setup.py  --------------------------------
+  
+! # cuda_home = get_environment_option("CUDA_HOME")
+! cuda_home = '/opt/cuda'
+  libcuml_path = get_environment_option('CUML_BUILD_PATH')
+  raft_path = get_environment_option('RAFT_PATH')
+  
+***************
+*** 151,157 ****
+          # object has all the args used by the user, we can check that.
+          self.singlegpu = '--singlegpu' in self.distribution.script_args
+  
+!         libs = ['cuda', 'cuml++']
+  
+          include_dirs = [
+              '../cpp/src',
+--- 152,161 ----
+          # object has all the args used by the user, we can check that.
+          self.singlegpu = '--singlegpu' in self.distribution.script_args
+  
+!         libs = ['cuda', 'cuml++', 'cudart', 
+!                 'cublas', 'cublasLt', 'cufft', 'cufftw', 'cuinj64',
+!                 'curand', 'cusolver', 'cusolverMg', 'cusparse', 'cusparseLt',
+!                 'fmt', 'treelite' ]
+  
+          include_dirs = [
+              '../cpp/src',
+***************
+*** 184,190 ****
+              Extension("*",
+                        sources=["cuml/**/*.pyx"],
+                        include_dirs=include_dirs,
+!                       library_dirs=[get_python_lib(), libcuml_path],
+                        runtime_library_dirs=[
+                            cuda_lib_dir, os.path.join(os.sys.prefix, "lib")
+                        ],
+--- 188,194 ----
+              Extension("*",
+                        sources=["cuml/**/*.pyx"],
+                        include_dirs=include_dirs,
+!                       library_dirs=[get_python_lib(), libcuml_path, cuda_lib_dir],
+                        runtime_library_dirs=[
+                            cuda_lib_dir, os.path.join(os.sys.prefix, "lib")
+                        ],
+***************
+*** 255,261 ****
+            "Intended Audience :: Developers",
+            "Programming Language :: Python",
+            "Programming Language :: Python :: 3.7",
+!           "Programming Language :: Python :: 3.8"
+        ],
+        author="NVIDIA Corporation",
+        setup_requires=['cython'],
+--- 259,266 ----
+            "Intended Audience :: Developers",
+            "Programming Language :: Python",
+            "Programming Language :: Python :: 3.7",
+!           "Programming Language :: Python :: 3.8",
+!           "Programming Language :: Python :: 3.9"
+        ],
+        author="NVIDIA Corporation",
+        setup_requires=['cython'],
