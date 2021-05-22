@@ -13,7 +13,7 @@
 +         -Wp,-D_FORTIFY_SOURCE=2,-D_GLIBCXX_ASSERTIONS \
 +         -Wformat -Werror=format-security \
 +         -fstack-clash-protection -fcf-protection" \
-+          -DCMAKE_CXX_FLAGS="-march=skylake-avx512 -mtune=native -DSPDLOG_FMT_EXTERNAL -O3 -pipe -fno-plt -fexceptions \
++          -DCMAKE_CXX_FLAGS="-march=haswell -mtune=native -DSPDLOG_FMT_EXTERNAL -O3 -pipe -fno-plt -fexceptions \
 +         -Wp,-D_FORTIFY_SOURCE=2,-D_GLIBCXX_ASSERTIONS \
 +         -Wformat -Werror=format-security \
 +         -fstack-clash-protection -fcf-protection" \
