@@ -75,6 +75,17 @@ build() {
   cd "${srcdir}/cudf/python/cudf"
   # ./build.sh clean
 #  ./build.sh --disable_nvtx -v -n libcudf cudf dask_cudf
+  export LD_LIBRARY_PATH=/opt/cuda/lib64:${srcdir}/rmm/build:$LD_LIBRARY_PATH
+CFLAGS="-march=skylake-avx512 -mtune=native -DSPDLOG_FMT_EXTERNAL -O3 -pipe -fno-plt -fexceptions \
+        -Wp,-D_FORTIFY_SOURCE=2,-D_GLIBCXX_ASSERTIONS \
+        -Wformat -Werror=format-security \
+        -fstack-clash-protection -fcf-protection" \
+CXXFLAGS="-march=skylake-avx512 -mtune=native -DSPDLOG_FMT_EXTERNAL -O3 -pipe -fno-plt -fexceptions \
+        -Wp,-D_FORTIFY_SOURCE=2,-D_GLIBCXX_ASSERTIONS \
+        -Wformat -Werror=format-security \
+        -fstack-clash-protection -fcf-protection" \
+CC=/usr/bin/gcc-10 \
+CXX=/usr/bin/g++-10 \
   PARALLEL_LEVEL=${PARALLEL_LEVEL} python setup.py build_ext --inplace -j${PARALLEL_LEVEL}
 
 
@@ -97,10 +108,31 @@ package_python-cudf()
 {
   cd "${srcdir}"/cudf/python/cudf
   
-  python setup.py install --single-version-externally-managed --record=record.txt --prefix=/usr --root="${pkgdir}" --optimize=1
+  export LD_LIBRARY_PATH=/opt/cuda/lib64:${srcdir}/rmm/build:$LD_LIBRARY_PATH
+CFLAGS="-march=skylake-avx512 -mtune=native -DSPDLOG_FMT_EXTERNAL -O3 -pipe -fno-plt -fexceptions \
+        -Wp,-D_FORTIFY_SOURCE=2,-D_GLIBCXX_ASSERTIONS \
+        -Wformat -Werror=format-security \
+        -fstack-clash-protection -fcf-protection" \
+CXXFLAGS="-march=skylake-avx512 -mtune=native -DSPDLOG_FMT_EXTERNAL -O3 -pipe -fno-plt -fexceptions \
+        -Wp,-D_FORTIFY_SOURCE=2,-D_GLIBCXX_ASSERTIONS \
+        -Wformat -Werror=format-security \
+        -fstack-clash-protection -fcf-protection" \
+CC=/usr/bin/gcc-10 \
+CXX=/usr/bin/g++-10 \
+  PARALLEL_LEVEL=${PARALLEL_LEVEL} python setup.py install --single-version-externally-managed --record=record.txt --prefix=/usr --root="${pkgdir}" --optimize=1
 
   cd "${srcdir}"/cudf/python/dask_cudf
-  python setup.py install --single-version-externally-managed --record=record.txt --prefix=/usr --root="${pkgdir}" --optimize=1
+CFLAGS="-march=skylake-avx512 -mtune=native -DSPDLOG_FMT_EXTERNAL -O3 -pipe -fno-plt -fexceptions \
+        -Wp,-D_FORTIFY_SOURCE=2,-D_GLIBCXX_ASSERTIONS \
+        -Wformat -Werror=format-security \
+        -fstack-clash-protection -fcf-protection" \
+CXXFLAGS="-march=skylake-avx512 -mtune=native -DSPDLOG_FMT_EXTERNAL -O3 -pipe -fno-plt -fexceptions \
+        -Wp,-D_FORTIFY_SOURCE=2,-D_GLIBCXX_ASSERTIONS \
+        -Wformat -Werror=format-security \
+        -fstack-clash-protection -fcf-protection" \
+CC=/usr/bin/gcc-10 \
+CXX=/usr/bin/g++-10 \
+  PARALLEL_LEVEL=${PARALLEL_LEVEL} python setup.py install --single-version-externally-managed --record=record.txt --prefix=/usr --root="${pkgdir}" --optimize=1
 
   # install -Dm644 ${srcdir}/cudf/cpp/src/utilities/legacy/*.hpp ${pkgdir}/usr/include/cudf/utilities/legacy/
   install -Dm644 ${srcdir}/cudf/LICENSE ${pkgdir}/usr/share/licenses/python-cudf/LICENSE
