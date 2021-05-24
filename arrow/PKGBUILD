@@ -4,7 +4,7 @@
 _pkgname=arrow-apache-arrow
 pkgname=arrow-cuda
 pkgver=1.0.1
-pkgrel=1
+pkgrel=2
 pkgdesc="Columnar in-memory analytics layer for big data."
 arch=(x86_64)
 url="https://arrow.apache.org"
@@ -19,7 +19,8 @@ makedepends=(apache-orc boost cmake flatbuffers gmock python-numpy git)
 source=(https://github.com/apache/arrow/archive/apache-arrow-${pkgver}.tar.gz
         arrow-protobuf-3.15.patch::https://github.com/apache/arrow/commit/06c795c948b594c16d3a48289519ce036a285aad.patch
         git+https://github.com/apache/parquet-testing.git
-        git+https://github.com/apache/arrow-testing.git)
+        git+https://github.com/apache/arrow-testing.git
+)
 sha256sums=('SKIP'
             'SKIP'
             'SKIP'
@@ -28,6 +29,7 @@ sha256sums=('SKIP'
 prepare(){
   cd arrow-apache-arrow-${pkgver}
   # patch -Np1 -i ../arrow-protobuf-3.15.patch
+
 }
 
 build(){
@@ -35,8 +37,20 @@ build(){
   ARROW_BUILD_TOOLCHAIN=/usr \
   ORC_HOME=/usr \
   DOUBLE_CONVERSION_HOME=/usr \
+#  patch -p0 < jmepconfigure.patch
   cmake \
     -B build -S arrow-apache-arrow-${pkgver}/cpp \
+          -DCMAKE_CUDA_HOST_COMPILER=/usr/bin/g++-10 \
+          -DCMAKE_C_COMPILER=/usr/bin/gcc-10 \
+          -DCMAKE_CXX_COMPILER=/usr/bin/g++-10 \
+          -DCMAKE_C_FLAGS="-march=skylake-avx512 -mtune=native -DSPDLOG_FMT_EXTERNAL -O3 -pipe -fno-plt -fexceptions \
+         -Wp,-D_FORTIFY_SOURCE=2,-D_GLIBCXX_ASSERTIONS \
+         -Wformat -Werror=format-security \
+         -fstack-clash-protection -fcf-protection" \
+          -DCMAKE_CXX_FLAGS="-march=skylake-avx512 -mtune=native -DSPDLOG_FMT_EXTERNAL -O3 -pipe -fno-plt -fexceptions \
+         -Wp,-D_FORTIFY_SOURCE=2,-D_GLIBCXX_ASSERTIONS \
+         -Wformat -Werror=format-security \
+         -fstack-clash-protection -fcf-protection" \
     -DCMAKE_INSTALL_PREFIX="/usr" \
     -DCMAKE_INSTALL_LIBDIR="lib" \
     -DCMAKE_BUILD_TYPE=Release \
@@ -63,7 +77,18 @@ build(){
     -DARROW_DATASET=ON \
     -DARROW_CUDA=ON
   sed -i -e 's/GRPC_CPP_PLUGIN-NOTFOUND/\/usr\/bin\/grpc_cpp_plugin/g' build/src/arrow/flight/CMakeFiles/flight_grpc_gen.dir/build.make
-  make -C build -j6
+
+  CFLAGS="-march=skylake-avx512 -mtune=native -DSPDLOG_FMT_EXTERNAL -O3 -pipe -fno-plt -fexceptions \
+        -Wp,-D_FORTIFY_SOURCE=2,-D_GLIBCXX_ASSERTIONS \
+        -Wformat -Werror=format-security \
+        -fstack-clash-protection -fcf-protection" \
+CC=/usr/bin/gcc-10 \
+CXX=/usr/bin/g++-10 \
+CXXFLAGS="-march=skylake-avx512 -mtune=native -DSPDLOG_FMT_EXTERNAL -O3 -pipe -fno-plt -fexceptions \
+        -Wp,-D_FORTIFY_SOURCE=2,-D_GLIBCXX_ASSERTIONS \
+        -Wformat -Werror=format-security \
+        -fstack-clash-protection -fcf-protection" \
+ DESTDIR="${pkgdir}" make -C build -j6
 }
 
 package(){

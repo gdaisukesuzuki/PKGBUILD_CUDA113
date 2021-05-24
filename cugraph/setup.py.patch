@@ -1,0 +1,53 @@
+*** cugraph/python/setup.py-dist	2021-05-24 10:31:31.696928249 +0900
+--- cugraph/python/setup.py	2021-05-24 10:35:40.044595014 +0900
+***************
+*** 53,58 ****
+--- 53,60 ----
+      )
+  
+  cuda_include_dir = os.path.join(CUDA_HOME, "include")
++ cuda_lib_dir = os.path.join(CUDA_HOME, "lib64")
++ 
+  
+  if (os.environ.get('CONDA_PREFIX', None)):
+      conda_prefix = os.environ.get('CONDA_PREFIX')
+***************
+*** 107,115 ****
+                              os.path.join(
+                                  conda_include_dir, "libcudacxx"),
+                              cuda_include_dir],
+!               library_dirs=[get_python_lib()],
+                runtime_library_dirs=[conda_lib_dir],
+!               libraries=['cugraph', 'nccl'],
+                language='c++',
+                extra_compile_args=['-std=c++17'])
+  ]
+--- 109,117 ----
+                              os.path.join(
+                                  conda_include_dir, "libcudacxx"),
+                              cuda_include_dir],
+!               library_dirs=[get_python_lib(), cuda_lib_dir ],
+                runtime_library_dirs=[conda_lib_dir],
+!               libraries=['cugraph', 'nccl', 'spdlog', 'fmt', 'cuda', 'cublas', 'cusparse', 'cusolver', 'cudart' ],
+                language='c++',
+                extra_compile_args=['-std=c++17'])
+  ]
+***************
+*** 128,134 ****
+            # "Operating System :: OS Independent",
+            "Programming Language :: Python",
+            "Programming Language :: Python :: 3.6",
+!           "Programming Language :: Python :: 3.7"
+        ],
+        # Include the separately-compiled shared library
+        author="NVIDIA Corporation",
+--- 130,138 ----
+            # "Operating System :: OS Independent",
+            "Programming Language :: Python",
+            "Programming Language :: Python :: 3.6",
+!           "Programming Language :: Python :: 3.7",
+!           "Programming Language :: Python :: 3.8",
+!           "Programming Language :: Python :: 3.9"
+        ],
+        # Include the separately-compiled shared library
+        author="NVIDIA Corporation",

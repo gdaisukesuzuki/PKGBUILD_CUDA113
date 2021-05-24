@@ -1,0 +1,19 @@
+*** cupy-9.0.0/cupy_backends/cupy_cugraph.h-dist	2021-05-24 11:15:59.130717167 +0900
+--- cupy-9.0.0/cupy_backends/cupy_cugraph.h	2021-05-24 11:16:26.134526487 +0900
+***************
+*** 9,15 ****
+  
+  #elif !defined(CUPY_NO_CUDA)
+  
+! #include <algorithms.hpp>
+  
+  // The following header file is available since version 0.19.0
+  #if __has_include(<version_config.hpp>)
+--- 9,15 ----
+  
+  #elif !defined(CUPY_NO_CUDA)
+  
+! #include <cugraph/algorithms.hpp>
+  
+  // The following header file is available since version 0.19.0
+  #if __has_include(<version_config.hpp>)

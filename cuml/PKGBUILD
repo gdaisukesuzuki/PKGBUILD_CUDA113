@@ -6,7 +6,7 @@
 pkgname=(cuml python-cuml)
 _pkgname=cuml
 pkgver=0.19.0
-pkgrel=2
+pkgrel=3
 pkgdesc="RAPIDS Memory Manager"
 arch=('x86_64')
 url="https://rapids.ai/"
