@@ -12,8 +12,8 @@ license=('MIT')
 depends=('cuda' 'cudnn' 'nccl' 'python-numpy' 'python-fastrlock')
 makedepends=('python' 'python-setuptools' 'cython')
 optdepends=('libcutensor' 'cusparselt' 'python-cugraph')
-# source=("https://github.com/cupy/cupy/archive/v$pkgver.tar.gz"
-source=("https://pypi.python.org/packages/source/${_pkgname:0:1}/$_pkgname/$_pkgname-$pkgver.tar.gz"
+# source=("https://pypi.python.org/packages/source/${_pkgname:0:1}/$_pkgname/$_pkgname-$pkgver.tar.gz"
+source=("https://github.com/cupy/cupy/archive/v$pkgver.tar.gz"
 	"git+https://github.com/NVIDIA/jitify.git"
 	"https://github.com/NVIDIA/cub/archive/refs/tags/$_cubver.tar.gz"
         "CubCudaConfig.cmake.patch"
