@@ -27,13 +27,13 @@ prepare(){
 
 build(){
   cd ${_pkg}-${pkgver}/python
-    env CFLAGS="-march=skylake-avx512 -mtune=native -DSPDLOG_FMT_EXTERNAL -O3 -pipe -fno-plt -fexceptions \
+    env CFLAGS="-march=skylake -mtune=native -DSPDLOG_FMT_EXTERNAL -O3 -pipe -fno-plt -fexceptions \
         -Wp,-D_FORTIFY_SOURCE=2,-D_GLIBCXX_ASSERTIONS \
         -Wformat -Werror=format-security \
         -fstack-clash-protection -fcf-protection" \
 CC=/usr/bin/gcc-10 \
 CXX=/usr/bin/g++-10 \
-CXXFLAGS="-march=skylake-avx512 -mtune=native -DSPDLOG_FMT_EXTERNAL -O3 -pipe -fno-plt -fexceptions \
+CXXFLAGS="-march=skylake -mtune=native -DSPDLOG_FMT_EXTERNAL -O3 -pipe -fno-plt -fexceptions \
         -Wp,-D_FORTIFY_SOURCE=2,-D_GLIBCXX_ASSERTIONS \
         -Wformat -Werror=format-security \
         -fstack-clash-protection -fcf-protection" \
@@ -53,13 +53,13 @@ CXXFLAGS="-march=skylake-avx512 -mtune=native -DSPDLOG_FMT_EXTERNAL -O3 -pipe -f
 
 package(){
   cd ${_pkg}-${pkgver}/python
-    env CFLAGS="-march=skylake-avx512 -mtune=native -DSPDLOG_FMT_EXTERNAL -O3 -pipe -fno-plt -fexceptions \
+    env CFLAGS="-march=skylake -mtune=native -DSPDLOG_FMT_EXTERNAL -O3 -pipe -fno-plt -fexceptions \
         -Wp,-D_FORTIFY_SOURCE=2,-D_GLIBCXX_ASSERTIONS \
         -Wformat -Werror=format-security \
         -fstack-clash-protection -fcf-protection" \
 CC=/usr/bin/gcc-10 \
 CXX=/usr/bin/g++-10 \
-CXXFLAGS="-march=skylake-avx512 -mtune=native -DSPDLOG_FMT_EXTERNAL -O3 -pipe -fno-plt -fexceptions \
+CXXFLAGS="-march=skylake -mtune=native -DSPDLOG_FMT_EXTERNAL -O3 -pipe -fno-plt -fexceptions \
         -Wp,-D_FORTIFY_SOURCE=2,-D_GLIBCXX_ASSERTIONS \
         -Wformat -Werror=format-security \
         -fstack-clash-protection -fcf-protection" \
