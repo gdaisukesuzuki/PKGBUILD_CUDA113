@@ -50,11 +50,11 @@ prepare() {
 
 build() {
   cd "$srcdir/$_pkgname-$pkgver"
-CFLAGS="-march=rocketlake -mtune=native -DSPDLOG_FMT_EXTERNAL -O3 -pipe -fno-plt -fexceptions \
+CFLAGS="-march=skylake -mtune=native -DSPDLOG_FMT_EXTERNAL -O3 -pipe -fno-plt -fexceptions \
         -Wp,-D_FORTIFY_SOURCE=2,-D_GLIBCXX_ASSERTIONS \
         -Wformat -Werror=format-security \
         -fstack-clash-protection -fcf-protection -I/usr/include/cugraph " \
-CXXFLAGS="-march=rocketlake -mtune=native -DSPDLOG_FMT_EXTERNAL -O3 -pipe -fno-plt -fexceptions \
+CXXFLAGS="-march=skylake -mtune=native -DSPDLOG_FMT_EXTERNAL -O3 -pipe -fno-plt -fexceptions \
         -Wp,-D_FORTIFY_SOURCE=2,-D_GLIBCXX_ASSERTIONS \
         -Wformat -Werror=format-security \
         -fstack-clash-protection -fcf-protection -I/usr/include/cugraph " \
