@@ -63,7 +63,7 @@ export GPU_ARCH=""
 
 
   export CUDAHOSTCXX=/usr/bin/g++-10
-export CFLAGS="-march=skylake-avx512 -mtune=native -DSPDLOG_FMT_EXTERNAL -O3 -pipe -fno-plt -fexceptions \
+export CFLAGS="-march=skylake -mtune=native -DSPDLOG_FMT_EXTERNAL -O3 -pipe -fno-plt -fexceptions \
         -Wp,-D_FORTIFY_SOURCE=2,-D_GLIBCXX_ASSERTIONS \
         -Wformat -Werror=format-security \
         -fstack-clash-protection -fcf-protection"
@@ -84,11 +84,11 @@ export CXXFLAGS="$CFLAGS"
           -DBUILD_TESTS=OFF \
           -DCMAKE_C_COMPILER=/usr/bin/gcc-10 \
           -DCMAKE_CXX_COMPILER=/usr/bin/g++-10 \
-          -DCMAKE_C_FLAGS="-march=skylake-avx512 -mtune=native -DSPDLOG_FMT_EXTERNAL -O3 -pipe -fno-plt -fexceptions \
+          -DCMAKE_C_FLAGS="-march=skylake -mtune=native -DSPDLOG_FMT_EXTERNAL -O3 -pipe -fno-plt -fexceptions \
         -Wp,-D_FORTIFY_SOURCE=2,-D_GLIBCXX_ASSERTIONS \
         -Wformat -Werror=format-security \
         -fstack-clash-protection -fcf-protection" \
-         -DCMAKE_CXX_FLAGS="-march=skylake-avx512 -mtune=native -DSPDLOG_FMT_EXTERNAL -O3 -pipe -fno-plt -fexceptions \
+         -DCMAKE_CXX_FLAGS="-march=skylake -mtune=native -DSPDLOG_FMT_EXTERNAL -O3 -pipe -fno-plt -fexceptions \
         -Wp,-D_FORTIFY_SOURCE=2,-D_GLIBCXX_ASSERTIONS \
         -Wformat -Werror=format-security \
         -fstack-clash-protection -fcf-protection" \
@@ -105,13 +105,13 @@ export CXXFLAGS="$CFLAGS"
         find . -name 'link.txt' | xargs sed -i -e 's/-lpthread/-lpthread -lfmt -lspdlog/g'
         # find . -name 'link.txt' | xargs sed -i -e 's/-lpthread/-lpthread -lcudf -lfmt -lspdlog/g'
         # find . -name 'link.txt' | xargs sed -i -e 's/-lpthread/-lpthread -lgtest -lgmock -lgtest_main -lcudf -lfmt -lspdlog/g'
-    env CFLAGS="-march=skylake-avx512 -mtune=native -DSPDLOG_FMT_EXTERNAL -O3 -pipe -fno-plt -fexceptions \
+    env CFLAGS="-march=skylake -mtune=native -DSPDLOG_FMT_EXTERNAL -O3 -pipe -fno-plt -fexceptions \
         -Wp,-D_FORTIFY_SOURCE=2,-D_GLIBCXX_ASSERTIONS \
         -Wformat -Werror=format-security \
         -fstack-clash-protection -fcf-protection" \
 CC=/usr/bin/gcc-10 \
 CXX=/usr/bin/g++-10 \
-CXXFLAGS="-march=skylake-avx512 -mtune=native -DSPDLOG_FMT_EXTERNAL -O3 -pipe -fno-plt -fexceptions \
+CXXFLAGS="-march=skylake -mtune=native -DSPDLOG_FMT_EXTERNAL -O3 -pipe -fno-plt -fexceptions \
         -Wp,-D_FORTIFY_SOURCE=2,-D_GLIBCXX_ASSERTIONS \
         -Wformat -Werror=format-security \
         -fstack-clash-protection -fcf-protection" \
