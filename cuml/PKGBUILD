@@ -67,7 +67,7 @@ export CUML_EXTRA_CMAKE_ARGS=""
 export INSTALL_PREFIX=/usr
 export PARALLEL_LEVEL=$(nproc)
 export CUDA_HOME=/opt/cuda
-export CFLAGS="-march=skylake-avx512 -mtune=native -DSPDLOG_FMT_EXTERNAL -O3 -pipe -fno-plt -fexceptions \
+export CFLAGS="-march=skylake -mtune=native -DSPDLOG_FMT_EXTERNAL -O3 -pipe -fno-plt -fexceptions \
         -Wp,-D_FORTIFY_SOURCE=2,-D_GLIBCXX_ASSERTIONS \
         -Wformat -Werror=format-security \
         -fstack-clash-protection -fcf-protection"
@@ -129,13 +129,13 @@ package_cuml() {
   # cd "${srcdir}"/cuml/cpp/build
 
   # make DESTDIR="${pkgdir}" install_cudf
-CFLAGS="-march=skylake-avx512 -mtune=native -DSPDLOG_FMT_EXTERNAL -O3 -pipe -fno-plt -fexceptions \
+CFLAGS="-march=skylake -mtune=native -DSPDLOG_FMT_EXTERNAL -O3 -pipe -fno-plt -fexceptions \
         -Wp,-D_FORTIFY_SOURCE=2,-D_GLIBCXX_ASSERTIONS \
         -Wformat -Werror=format-security \
         -fstack-clash-protection -fcf-protection" \
 CC=/usr/bin/gcc-10 \
 CXX=/usr/bin/g++-10 \
-CXXFLAGS="-march=skylake-avx512 -mtune=native -DSPDLOG_FMT_EXTERNAL -O3 -pipe -fno-plt -fexceptions \
+CXXFLAGS="-march=skylake -mtune=native -DSPDLOG_FMT_EXTERNAL -O3 -pipe -fno-plt -fexceptions \
         -Wp,-D_FORTIFY_SOURCE=2,-D_GLIBCXX_ASSERTIONS \
         -Wformat -Werror=format-security \
         -fstack-clash-protection -fcf-protection" \
@@ -154,13 +154,13 @@ package_python-cuml()
   depends=('python-faiss-cuda' 'python-cudf' 'python-treelite' 'cumlprims')
   cd "${srcdir}/cuml/python"
   
-CFLAGS="-march=skylake-avx512 -mtune=native -DSPDLOG_FMT_EXTERNAL -O3 -pipe -fno-plt -fexceptions \
+CFLAGS="-march=skylake -mtune=native -DSPDLOG_FMT_EXTERNAL -O3 -pipe -fno-plt -fexceptions \
         -Wp,-D_FORTIFY_SOURCE=2,-D_GLIBCXX_ASSERTIONS \
         -Wformat -Werror=format-security \
         -fstack-clash-protection -fcf-protection" \
 CC=/usr/bin/gcc-10 \
 CXX=/usr/bin/g++-10 \
-CXXFLAGS="-march=skylake-avx512 -mtune=native -DSPDLOG_FMT_EXTERNAL -O3 -pipe -fno-plt -fexceptions \
+CXXFLAGS="-march=skylake -mtune=native -DSPDLOG_FMT_EXTERNAL -O3 -pipe -fno-plt -fexceptions \
         -Wp,-D_FORTIFY_SOURCE=2,-D_GLIBCXX_ASSERTIONS \
         -Wformat -Werror=format-security \
         -fstack-clash-protection -fcf-protection" \
