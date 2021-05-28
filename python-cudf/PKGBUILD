@@ -76,11 +76,11 @@ build() {
   # ./build.sh clean
 #  ./build.sh --disable_nvtx -v -n libcudf cudf dask_cudf
   export LD_LIBRARY_PATH=/opt/cuda/lib64:${srcdir}/rmm/build:$LD_LIBRARY_PATH
-CFLAGS="-march=skylake-avx512 -mtune=native -DSPDLOG_FMT_EXTERNAL -O3 -pipe -fno-plt -fexceptions \
+CFLAGS="-march=skylake -mtune=native -DSPDLOG_FMT_EXTERNAL -O3 -pipe -fno-plt -fexceptions \
         -Wp,-D_FORTIFY_SOURCE=2,-D_GLIBCXX_ASSERTIONS \
         -Wformat -Werror=format-security \
         -fstack-clash-protection -fcf-protection" \
-CXXFLAGS="-march=skylake-avx512 -mtune=native -DSPDLOG_FMT_EXTERNAL -O3 -pipe -fno-plt -fexceptions \
+CXXFLAGS="-march=skylake -mtune=native -DSPDLOG_FMT_EXTERNAL -O3 -pipe -fno-plt -fexceptions \
         -Wp,-D_FORTIFY_SOURCE=2,-D_GLIBCXX_ASSERTIONS \
         -Wformat -Werror=format-security \
         -fstack-clash-protection -fcf-protection" \
