@@ -1,8 +1,8 @@
 # Maintainer: Leo Mao <leomaoyw at gmail dot com>
 pkgname=python-cupy
 _pkgname=cupy
-pkgver=9.1.0
-_cubver=1.12.0
+pkgver=9.2.0
+_cubver=1.12.1
 pkgrel=1
 pkgdesc="NumPy-like API accelerated with CUDA"
 _github="cupy/cupy"
@@ -16,7 +16,7 @@ optdepends=('libcutensor' 'cusparselt' 'python-cugraph')
 source=("https://github.com/cupy/cupy/archive/v$pkgver.tar.gz"
 	"git+https://github.com/NVIDIA/jitify.git"
 	"https://github.com/NVIDIA/cub/archive/refs/tags/$_cubver.tar.gz"
-        "CubCudaConfig.cmake.patch"
+        "python.patch"
         )
 
 md5sums=('SKIP'
@@ -25,7 +25,8 @@ md5sums=('SKIP'
          'SKIP')
 
 prepare() {
-  patch -p0 < CubCudaConfig.cmake.patch
+  # patch -p0 < CubCudaConfig.cmake.patch
+  patch -p0 < python.patch
   # patch -p0 < cupy_cugraph.h.patch
   cd "$srcdir/$_pkgname-$pkgver"
   mkdir -p cupy/core/include/cupy
@@ -42,27 +43,30 @@ prepare() {
   if [[ $(vercmp $cuda_ver 11) -ge 0 ]]; then
     sed 's|c++11|c++14|g' -i cupy_setup_build.py
   fi
-  export CC=/usr/bin/gcc
-  export CXX=//usr/bin/g++
+#  export CC=/usr/bin/gcc-10
+#  export CXX=/usr/bin/g++-10
 #   export CUPY_NVCC_GENERATE_CODE="arch=compute_86,code=sm_86" 
    export CUPY_NVCC_GENERATE_CODE=current
+  export CUDA_HOME=/opt/cuda
+  export CUDA_PATH=/opt/cuda
 }
 
 build() {
   cd "$srcdir/$_pkgname-$pkgver"
-CFLAGS="-march=skylake -mtune=native -DSPDLOG_FMT_EXTERNAL -O3 -pipe -fno-plt -fexceptions \
+# echo 'raise RuntimeError' > numpy.py
+CFLAGS="-march=skylake-avx512 -mtune=native -O3 -pipe -fno-plt -fexceptions \
         -Wp,-D_FORTIFY_SOURCE=2,-D_GLIBCXX_ASSERTIONS \
         -Wformat -Werror=format-security \
         -fstack-clash-protection -fcf-protection -I/usr/include/cugraph " \
-CXXFLAGS="-march=skylake -mtune=native -DSPDLOG_FMT_EXTERNAL -O3 -pipe -fno-plt -fexceptions \
+CXXFLAGS="-march=skylake-avx512 -mtune=native -O3 -pipe -fno-plt -fexceptions \
         -Wp,-D_FORTIFY_SOURCE=2,-D_GLIBCXX_ASSERTIONS \
         -Wformat -Werror=format-security \
         -fstack-clash-protection -fcf-protection -I/usr/include/cugraph " \
-  python setup.py build
+  DISTUTILS_DEBUG=1 python setup.py build
 }
 
 package() {
   cd "$srcdir/$_pkgname-$pkgver"
-  python setup.py install --skip-build --prefix=/usr --root="$pkgdir" --optimize=1
+  python setup.py install  --prefix=/usr --root="$pkgdir" --optimize=1
   install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }
