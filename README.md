@@ -18,8 +18,8 @@ a  procedure of building NVIDIA's [RAPIDS](https://rapids.ai/) under Arch Linux 
 ** Build on CUDA11.3 (+CUDNN8 + NCCL)
 
 * App build dependencies
-* 
-* <img width="1146" alt="diagram_dependency" src="https://user-images.githubusercontent.com/22126980/130342511-ec89579a-e0d5-4c67-90cf-179df10033a2.png">
+
+ <img width="1146" alt="diagram_dependency" src="https://user-images.githubusercontent.com/22126980/130342511-ec89579a-e0d5-4c67-90cf-179df10033a2.png">
 
 
 * Disclaimer
